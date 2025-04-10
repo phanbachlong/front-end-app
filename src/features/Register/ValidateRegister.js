@@ -1,4 +1,4 @@
-import userApi from "../api/UserApi";
+import userApi from "../../api/UserApi";
 import * as Yup from 'yup';
 
 const Validation = Yup.object().shape({

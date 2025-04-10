@@ -1,0 +1,9 @@
+.sign-img{
+    text-align: center;
+}
+
+.sign-img-detail{
+    width: 50%;
+    height: 50%;
+    border-radius: 50%;
+}

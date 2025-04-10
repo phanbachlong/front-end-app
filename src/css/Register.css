@@ -1,78 +1,13 @@
-.register-container {
-    margin: 0 auto;
-    width: 40%;
-}
-
-.register-header {
-    text-align: center;
-    margin: 40px;
-}
-
-.register-header-title {
-    font-size: 28px;
-    font-weight: 600;
-}
-
-.register-header-description {
-    font-size: 14px;
-}
-
-.reigster-form {
-    padding: 50px;
-    border: 1px solid #f0f0f0;
-    font-size: 14px;
-    background-color: white;
-    color: rgba(0, 0, 0, 0.505);
-}
-
-.form-items {
-    margin-bottom: 24px;
-}
-
-.form-label {
-    display: block;
-    line-height: 32px;
-    margin-bottom: 4px;
-    font-size: 14px;
-}
-
-.form-control {
-    width: 100%;
-    padding: 10px;
-    font-size: 15px;
-}
-
-.border-normal {
-    border: 1px solid rgba(0, 0, 0, 0.505);
-    border-radius: 5px;
-}
-
-.border-error {
-    border: 1px solid red;
-    border-radius: 5px;
-}
-
-.error-input-message {
-    color: red;
-}
-
-.form-bottom {
-    text-align: center;
-}
-
-.btn {
-    padding: 10px 14px;
-    border: none;
-    border-radius: 5px;
-}
-
+.resend-btn,
+.close-btn,
 .btn-submit {
     color: #fff;
-    background-color: cornflowerblue;
+    background-color: #4267d8;
 }
-
+.resend-btn:hover,
+.close-btn:hover,
 .btn-submit:hover {
-    background-color: #4169E1;
+    background-color: cornflowerblue;
 }
 
 .error-server-message {
@@ -94,22 +29,26 @@
 
 .modal-overlay {
     position: fixed;
-    top: 40px;
+    top: 0;
     left: 0;
     right: 0;
+    bottom: 0;
     background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 1000;
+    width: 100%;
 }
 
 .modal {
     background: white;
+    top: 100px;
     width: 40%;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     animation: fadeInModal 0.3s ease;
     font-size: 14px;
+    padding: 32px;
 }
 
 .modal-title {
@@ -122,15 +61,7 @@
 }
 
 .modal-footer {
-    right: 0;
-
-}
-
-.btn {
-    padding: 8px 12px;
-    background-color: cornflowerblue;
-    color: #fff;
-    border-radius: 5px;
+    text-align: right;
 }
 
 @keyframes fadeInModal {
@@ -143,4 +74,9 @@
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+.modal-paragraph-message{
+    color: red;
+    margin-top: 20px;
 }
