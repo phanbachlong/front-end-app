@@ -3,7 +3,8 @@ import '../../css/Register.css'
 import Validation from "./ValidateRegister";
 import RegisterService from "./RegisterService";
 import SuccessModalRegister from "./SuccessModalRegister";
-import RegisterForm from "./RegisterForm";
+import FormUtil from "../../utils/FormUtil";
+import { Link } from "react-router-dom";
 
 class Register extends React.Component {
     constructor(props) {
@@ -20,7 +21,7 @@ class Register extends React.Component {
         }
     }
 
-    handleRegisterFormSubmit = async (values, {setSubmitting, resetForm}) =>{
+    handleRegisterFormSubmit = async (values, { setSubmitting, resetForm }) => {
         try {
             await RegisterService.createUser(values);
             this.setState({
@@ -32,18 +33,21 @@ class Register extends React.Component {
             resetForm();
         } catch (error) {
             let errorMessage = "Failure!!!";
-            if(error.response?.data?.message){
+            if (error.response?.data?.message) {
                 errorMessage = error.response.data.message;
             }
 
-            this.setState({serverError: errorMessage, showServerError: true})
-        }finally{
+            this.setState({ serverError: errorMessage, showServerError: true })
+        } finally {
             setTimeout(() => this.setState({ showServerError: false }), 3000);
             setSubmitting(false);
         }
     }
 
     render() {
+
+        const initialValues = { firstName: '', lastName: '', username: '', email: '', password: '', confirmPass: '' };
+
         return (
             <div className="sign-container">
                 <div className="sign-header">
@@ -56,8 +60,13 @@ class Register extends React.Component {
                 )}
 
                 <div className="sign-body">
-                    <RegisterForm onSubmit={this.handleRegisterFormSubmit} validationSchema={Validation} serverError={this.state.serverError} showServerError={this.state.showServerError}></RegisterForm>
+                    <FormUtil initialValues={initialValues} onSubmit={this.handleRegisterFormSubmit} validation={Validation} serverError={this.state.serverError} showServerError={this.state.showServerError} btnName="Sign up"></FormUtil>
+                    <div className="redirect-link">
+                        <p>Already have an account?</p>
+                        <Link to="/login" className="link">Login</Link>
+                    </div>
                 </div>
+
             </div>
         )
     }

@@ -2,25 +2,21 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
 
-class LoginForm extends React.Component{
-    
-    render(){
-        const {onSubmit, validation, src} = this.props;
+class FormUtil extends React.Component {
 
-        return(
+    render() {
+        const { onSubmit, validation, initialValues, btnName } = this.props;
+
+        return (
 
             <Formik
-                initialValues={{username: '', password: ''}}
+                initialValues={initialValues}
                 validationSchema={validation}
                 onSubmit={onSubmit}
             >
-                {({isSubmitting, errors, touched}) => (
+                {({ isSubmitting, errors, touched }) => (
                     <Form className="sign-form">
-                        <div className="sign-img">
-                            <img src={src} className="sign-img-detail"></img>
-                        </div>
-
-                        {['username', 'password'].map((field, index) => (
+                        {Object.keys(initialValues).map((field, index) => (
                             <div className="form-items" key={index}>
                                 <label className="form-label">
                                     {field.charAt(0).toUpperCase() + field.slice(1)}
@@ -31,16 +27,16 @@ class LoginForm extends React.Component{
                                     id={field}
                                     name={field}
                                     placeholder={
-                                        field.includes("password") ? "********" : `Enter ${field.replace(/([A-Z])/g, ' $1').toLowerCase()}`
+                                        field.includes("password") || field.includes("confirmPass") ? "********" : `Enter ${field.replace(/([A-Z])/g, ' $1').toLowerCase()}`
                                     }
-                                    autoComplete={field.includes("password") ? "new-password" : "off"}
+                                    autoComplete={field.includes("password") || field.includes("confirmPass") ? "new-password" : "off"}
                                 ></Field>
                                 <ErrorMessage className="error-input-message" name={field} component="div"></ErrorMessage>
                             </div>
                         ))}
                         <div className="form-items form-bottom">
                             <button className="btn btn-submit" type="submit" disabled={isSubmitting}>
-                                Sign in
+                                {btnName}
                             </button>
                         </div>
                     </Form>
@@ -51,4 +47,4 @@ class LoginForm extends React.Component{
     }
 }
 
-export default LoginForm;
+export default FormUtil;
