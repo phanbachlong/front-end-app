@@ -23,7 +23,7 @@ class FormUtil extends React.Component {
                                 </label>
                                 <Field
                                     className={`form-control ${errors[field] && touched[field] ? 'border-error' : 'border-normal'}`}
-                                    type={field.includes("password") ? "password" : "text"}
+                                    type={field.includes("password") ? "password" : field.includes("confirmPass") ? "password" : "text"}
                                     id={field}
                                     name={field}
                                     placeholder={
