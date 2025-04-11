@@ -1,7 +1,4 @@
-import logo from './logo.svg';
 import './App.css';
-import Register from './features/Register/Register'
-import Login from './features/Login/Login'
 import { Routes, Route } from 'react-router-dom';
 import AppRoutes from './AppRoutes';
 

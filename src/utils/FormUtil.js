@@ -35,7 +35,7 @@ class FormUtil extends React.Component {
                             </div>
                         ))}
                         <div className="form-items form-bottom">
-                            <button className="btn btn-submit" type="submit" disabled={isSubmitting}>
+                            <button className="btn btn-submit pointer" type="submit" disabled={isSubmitting}>
                                 {btnName}
                             </button>
                         </div>
