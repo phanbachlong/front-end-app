@@ -1,5 +1,6 @@
 import Login from "./features/Login/Login";
 import Register from "./features/Register/Register";
+import Home from "./Home";
 
 
 const AppRoutes = [
@@ -16,6 +17,11 @@ const AppRoutes = [
     {
         path: "/register",
         element: <Register />
+    },
+    
+    {
+        path: "/home",
+        element: <Home/>
     }
 ]
 

@@ -5,12 +5,12 @@ import SuccessModalRegister from "./SuccessModalRegister";
 import FormUtil from "../../utils/FormUtil";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { registerUser } from "../../redux/slices/authSlice";
+import { registerUser } from "../../redux/slices/registerSlice";
 
 const Register = () => {
 
     const dispatch = useDispatch();
-    const { error, loading } = useSelector((state) => state.auth);
+    const { error, loading } = useSelector((state) => state.register);
     const [showModal, setShowModal] = useState(false);
     const [email, setEmail] = useState('')
 
@@ -19,13 +19,14 @@ const Register = () => {
 
         console.log(rsAction);
 
+        console.log(registerUser.fulfilled);
+        
+
         if (registerUser.fulfilled.match(rsAction)) {
             setShowModal(true);
             setEmail(values.email);
             resetForm();
-        } else if (registerUser.rejected.match(rsAction)) {
-            console.error("Đăng ký thất bại: ", rsAction.payload);
-        }
+        } 
         setSubmitting(false);
     }
 

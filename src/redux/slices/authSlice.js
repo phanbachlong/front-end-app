@@ -1,57 +1,58 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import RegisterService from '../../features/Register/RegisterService';
+import loginApi from "../../api/LoginApi";
 
+const tokenFromStorage = localStorage.getItem('token');
 
-
-export const registerUser = createAsyncThunk('auth/registerUser', async (userData, { rejectWithValue }) => {
+export const login = createAsyncThunk('auth/login', async (credentials, thunkApi) => {
     try {
-        const res = await RegisterService.createUser(userData);
-
-        console.log("res.status:", res.status);
-        console.log("res.data:", res.data);
-
-        if (res.status >= 200 && res.status < 300) {
-            return {
-                message: res.data || "User registered successfully",
-            };
-        } else {
-            return rejectWithValue("Unexpected response from server.");
-        }
+        const res = await loginApi.login(credentials);
+        console.log("Login response:", res); 
+        return res.data;
     } catch (error) {
-        return rejectWithValue(error.response?.data?.message || "Registration fail!!!");
+        return thunkApi.rejectWithValue(error.response?.message);
     }
-}
-)
+})
 
 const authSlice = createSlice({
     name: 'auth',
     initialState: {
-        message: null,
+        user: null,
+        token: tokenFromStorage || null,
         loading: false,
         error: null
     },
-    reducers: {
-        clearAuth: (state) => {
+
+    reducers:{
+        logout: (state) => {
             state.user = null;
-            state.error = null;
+            state.token = null;
+            localStorage.removeItem('token');
         }
     },
+
     extraReducers: (builder) => {
         builder
-            .addCase(registerUser.pending, (state) => {
+            .addCase(login.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
-            .addCase(registerUser.fulfilled, (state, action) => {
+            .addCase(login.fulfilled, (state, action) => {
+                console.log("Action payload:", action.payload);
                 state.loading = false;
+                state.token = action.payload.token;
                 state.user = action.payload;
+                localStorage.setItem('token', action.payload.token)
             })
-            .addCase(registerUser.rejected, (state, action) => {
+            .addCase(login.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             })
     }
 })
 
-export const { clearAuth } = authSlice.actions;
-export default authSlice.reducer;   
+export const { logout } = authSlice.actions;
+export default authSlice.reducer;
+
+
+
+

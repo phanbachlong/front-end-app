@@ -6,7 +6,7 @@ class LoginApi {
     }
 
     login = (body) => {
-        return Api.post(body);
+        return Api.post(this.url,body);
     }
 }
 
