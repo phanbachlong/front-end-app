@@ -12,7 +12,7 @@ const Register = () => {
     const dispatch = useDispatch();
     const { error, loading } = useSelector((state) => state.register);
     const [showModal, setShowModal] = useState(false);
-    const [email, setEmail] = useState('')
+    const [email, setEmail] = useState('');
 
     const handleRegisterFormSubmit = async (values, { setSubmitting, resetForm }) => {
         const rsAction = await dispatch(registerUser(values));

@@ -30,7 +30,7 @@ const registerSlice = createSlice({
     },
     reducers: {
         clearAuth: (state) => {
-            state.user = null;
+            state.message = null;
             state.error = null;
         },
     },
@@ -42,7 +42,7 @@ const registerSlice = createSlice({
             })
             .addCase(registerUser.fulfilled, (state, action) => {
                 state.loading = false;
-                state.user = action.payload;
+                state.message = action.payload;
             })
             .addCase(registerUser.rejected, (state, action) => {
                 state.loading = false;

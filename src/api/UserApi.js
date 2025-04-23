@@ -17,6 +17,10 @@ class UserApi {
         return Api.post(this.url, body)
     }
 
+    getProfile = () => {
+        return Api.get(`${this.url}/profile`)
+    }
+
 }
 
 const userApi = new UserApi();

@@ -1,28 +1,24 @@
-import Login from "./features/Login/Login";
-import Register from "./features/Register/Register";
-import Home from "./Home";
+import Group from "./features/Group/Group";
+import Home from "./features/Home/Home";
+import Profile from "./features/User/Profile";
 
 
 const AppRoutes = [
     {
-        path: "/",
-        element: <Login />
+        path: "groups",
+        element: <Group />
     },
 
     {
-        path: "/login",
-        element: <Login />
+        path: "home",
+        element: <Home />
     },
 
     {
-        path: "/register",
-        element: <Register />
-    },
-    
-    {
-        path: "/home",
-        element: <Home/>
+        path: "profile",
+        element: <Profile />
     }
+
 ]
 
 export default AppRoutes;

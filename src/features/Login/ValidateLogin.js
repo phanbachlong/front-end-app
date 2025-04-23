@@ -1,26 +1,23 @@
 import userApi from "../../api/UserApi";
-import * as Yup from 'yup';
+import {z} from 'zod';
 
-const Validation = Yup.object().shape({
-    
-    username: Yup.string()
-        .required('Required')
-        .test('check-username-exists', 'Username is not exists', async (value) =>{
+const Validation = z.object({
 
-            if(!value || value.trim() === '') return true;
-
+    username: z.string()
+        .nonempty("Required")
+        .refine(async (username) => {
+            if(!username || username.trim() === '') return true;
             try {
-                const isUserNameExists = await userApi.isUserNameExists(value)
-
+                const isUserNameExists = await userApi.isUserNameExists(username);
                 return isUserNameExists.data;
             } catch (error) {
-                console.log("Can not reach username data");
-                return true
+                return true;
             }
+        },{
+            message: "Username is not exists"
         }),
-    password: Yup.string()
-        .required('required')
-        
+    password: z.string()
+        .nonempty("Required")
 })
 
 export default Validation;

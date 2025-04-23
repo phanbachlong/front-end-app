@@ -84,3 +84,14 @@
   color: cornflowerblue;
   margin: 5px;
 }
+
+.flex{
+  width: 100%;
+  display: flex;
+}
+
+.sideBar{
+  display: flex;
+  flex-direction: column;
+
+}
