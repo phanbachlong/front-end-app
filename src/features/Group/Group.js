@@ -63,7 +63,7 @@ const Group = () => {
         setPage(1);
         setSize(10); // hoặc giá trị mặc định bạn muốn
         setMinTotalMember(0);
-        setMaxTotalMember(maxTotalMemberFromGroup);
+        setMaxTotalMember(0);
         setSearch('');
     };
 
@@ -175,12 +175,13 @@ const Group = () => {
                 onHide={handleModalClose}
                 backdrop="static"
                 keyboard={false}
+                className="modal"
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Modal title</Modal.Title>
+                    <Modal.Title>Create Group</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <FormUtil initialValues={{ name: '' }} onSubmit={handleCreateGroupSubmit} validation={Validation} erverError={error} showServerError={!!error} btnName={loading ? "Confirm..." : "Confirm"}></FormUtil>
+                    <FormUtil initialValues={{ name: '' }} onSubmit={handleCreateGroupSubmit} validation={Validation} serverError={error} showServerError={!!error} btnName={loading ? "Confirm..." : "Confirm"}></FormUtil>
                 </Modal.Body>
                 <Message mess={mess}></Message>
             </Modal>

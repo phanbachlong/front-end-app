@@ -16,6 +16,14 @@ class GroupApi {
     isGroupExists = ({ name }) => {
         return Api.get(`${this.url}/name/${name}`)
     }
+
+    editGroup = async (id, { name, totalMember }) => {
+        return await Api.put(`${this.url}/${id}`, { name, totalMember });
+    }
+
+    delGroup = (ids) => {
+        return Api.delete(`${this.url}/${ids.join(',')}`)
+    }
 }
 
 const groupApi = new GroupApi();

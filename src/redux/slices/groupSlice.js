@@ -15,9 +15,27 @@ export const getAllGroups = createAsyncThunk('groups/groupList', async ({ page, 
 export const createGroup = createAsyncThunk('groups/createGroup', async (value, { rejectWithValue }) => {
     try {
         const res = await groupApi.createGroups(value);
-        return res.data
+        return res.data;
     } catch (error) {
         return rejectWithValue(error.message)
+    }
+})
+
+export const delGroup = createAsyncThunk('groups/delGroup', async (ids, { rejectWithValue }) => {
+    try {
+        await groupApi.delGroup(ids);
+        return ids;
+    } catch (error) {
+        return rejectWithValue(error.message)
+    }
+})
+
+export const editGroup = createAsyncThunk('group/editGroup', async ({ id, name, totalMember }, { rejectWithValue }) => {
+    try {
+        const res = groupApi.editGroup(id, { name, totalMember });
+        return res.data;
+    } catch (error) {
+        return rejectWithValue(error.message);
     }
 })
 
@@ -28,6 +46,7 @@ const groupSlice = createSlice({
         groups: [],
         totalPages: 0,
         maxTotalMemberFromGroup: 0,
+        message: null,
         loading: false,
         error: null
     },
@@ -61,11 +80,47 @@ const groupSlice = createSlice({
             })
             .addCase(createGroup.fulfilled, (state, action) => {
                 state.loading = false;
-                const newGroup = action.payload;
+                const newGroup = action.meta.arg;
                 newGroup.totalMember = 0;
                 state.groups.push(newGroup);
             })
             .addCase(createGroup.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+
+            //del group
+            .addCase(delGroup.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(delGroup.fulfilled, (state, action) => {
+                state.loading = false;
+                const deleteIDs = action.meta.arg;
+                state.groups = state.groups.filter(group => !deleteIDs.includes(group.id));
+            })
+
+            .addCase(delGroup.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+
+            //update group
+            .addCase(editGroup.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(editGroup.fulfilled, (state, action) => {
+                state.loading = false;
+                const updatedGroup = {
+                    ...state.groups.find(g => g.id === action.meta.arg.id),
+                    ...action.meta.arg,
+                };
+                state.groups = state.groups.map((group) =>
+                    group.id === updatedGroup.id ? updatedGroup : group
+                );
+            })
+            .addCase(editGroup.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             })

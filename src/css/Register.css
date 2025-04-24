@@ -27,7 +27,7 @@
     transform: translateY(0);
 }
 
-.modal-overlay {
+.rg-modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -41,9 +41,9 @@
     width: 100%;
 }
 
-.modal {
+.rg-modal-content {
     background: white;
-    top: 100px;
+    top: 50px;
     width: 40%;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     animation: fadeInModal 0.3s ease;
@@ -51,16 +51,16 @@
     padding: 32px;
 }
 
-.modal-title {
+.rg-modal-title {
     padding: 10px;
     font-weight: 600;
 }
 
-.modal-body {
+.rg-modal-body {
     padding: 16px 16px 20px;
 }
 
-.modal-footer {
+.rg-modal-footer {
     text-align: right;
 }
 
@@ -76,7 +76,7 @@
     }
 }
 
-.modal-paragraph-message{
+.rg-modal-paragraph-message{
     color: red;
     margin-top: 20px;
 }
