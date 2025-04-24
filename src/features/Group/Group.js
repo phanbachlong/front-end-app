@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
 import '../../css/Group.css'
 import { useDispatch, useSelector } from "react-redux";
-import { getAllGroups } from "../../redux/slices/groupSlice";
+import { getAllGroups, createGroup } from "../../redux/slices/groupSlice";
 import GroupList from "./GroupList";
 import { Table } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import FormUtil from "../../utils/FormUtil";
+import Validation from "./ValidationCreateGroup";
+import Message from "../../utils/MessageUtil";
 
 
 const Group = () => {
@@ -13,8 +18,20 @@ const Group = () => {
     const [page, setPage] = useState(1);
     const [size, setSize] = useState(10);
     const [minTotalMember, setMinTotalMember] = useState(0);
-    const [maxTotalMember, setMaxTotalMember] = useState(0);
+    const [maxTotalMember, setMaxTotalMember] = useState(maxTotalMemberFromGroup);
     const [search, setSearch] = useState('');
+    const [mess, setMess] = useState('');
+
+    //modal
+    const [show, setShow] = useState(false)
+
+    const handleModalShow = () => {
+        setShow(true);
+    }
+
+    const handleModalClose = () => {
+        setShow(false);
+    }
 
     useEffect(() => {
         dispatch(getAllGroups({ page, size, minTotalMember, maxTotalMember, search }));
@@ -46,9 +63,22 @@ const Group = () => {
         setPage(1);
         setSize(10); // hoặc giá trị mặc định bạn muốn
         setMinTotalMember(0);
-        setMaxTotalMember(0);
+        setMaxTotalMember(maxTotalMemberFromGroup);
         setSearch('');
     };
+
+    const handleCreateGroupSubmit = async (value, { setSubmitting, resetForm }) => {
+        try {
+            const rs = await dispatch(createGroup(value));
+            if (createGroup.fulfilled.match(rs)) {
+                setMess("Create group successfully");
+                resetForm();
+            }
+            setSubmitting(false);
+        } catch (error) {
+            setMess("Failed!!!")
+        }
+    }
 
 
     return (
@@ -85,15 +115,21 @@ const Group = () => {
                     </select>
                 </div>
 
-                <div className="form-items">
-                    <label className="search-label">Search: </label>
-                    <input className="search-input" type="text" value={search} onChange={handelSearchChange} placeholder="Enter name to search" />
+                <div className="search-and-new-items-bar">
+                    <div className="form-items search-item">
+                        <label className="search-label">Search: </label>
+                        <input className="search-input" type="text" value={search} onChange={handelSearchChange} placeholder="Enter name to search" />
+                    </div>
+
+                    <div className="new-group">
+                        <Button className="create-group-btn" onClick={handleModalShow}>+ New</Button>
+                    </div>
                 </div>
                 <Table className="group-table-detail" striped hover>
                     <thead>
                         <tr>
                             <th>Name</th>
-                            <th>Total Number</th>
+                            <th colSpan='2'>Total Number</th>
                         </tr>
                     </thead>
 
@@ -101,7 +137,7 @@ const Group = () => {
                         {loading ? (
                             <tr>
                                 <td colSpan='2' className="">
-                                    Loading..
+                                    Loading...
                                 </td>
                             </tr>
                         ) : (
@@ -133,7 +169,24 @@ const Group = () => {
                     </div>
                 </div>
             </div>
+
+            <Modal
+                show={show}
+                onHide={handleModalClose}
+                backdrop="static"
+                keyboard={false}
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title>Modal title</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <FormUtil initialValues={{ name: '' }} onSubmit={handleCreateGroupSubmit} validation={Validation} erverError={error} showServerError={!!error} btnName={loading ? "Confirm..." : "Confirm"}></FormUtil>
+                </Modal.Body>
+                <Message mess={mess}></Message>
+            </Modal>
         </div>
+
+
     )
 
 }

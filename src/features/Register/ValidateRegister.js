@@ -9,6 +9,7 @@ const Validation = Yup.object().shape({
         .required('Required'),
     username: Yup.string()
         .required('Required')
+        .min(6)
         .test('check-username-exists', 'Username already exists', async (value) => {
 
             if (!value || value.trim() === '') return true;

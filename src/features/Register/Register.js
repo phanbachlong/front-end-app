@@ -17,16 +17,11 @@ const Register = () => {
     const handleRegisterFormSubmit = async (values, { setSubmitting, resetForm }) => {
         const rsAction = await dispatch(registerUser(values));
 
-        console.log(rsAction);
-
-        console.log(registerUser.fulfilled);
-        
-
         if (registerUser.fulfilled.match(rsAction)) {
             setShowModal(true);
             setEmail(values.email);
             resetForm();
-        } 
+        }
         setSubmitting(false);
     }
 

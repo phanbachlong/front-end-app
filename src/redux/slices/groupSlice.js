@@ -12,6 +12,15 @@ export const getAllGroups = createAsyncThunk('groups/groupList', async ({ page, 
     }
 });
 
+export const createGroup = createAsyncThunk('groups/createGroup', async (value, { rejectWithValue }) => {
+    try {
+        const res = await groupApi.createGroups(value);
+        return res.data
+    } catch (error) {
+        return rejectWithValue(error.message)
+    }
+})
+
 
 const groupSlice = createSlice({
     name: 'group',
@@ -41,6 +50,22 @@ const groupSlice = createSlice({
 
             })
             .addCase(getAllGroups.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload;
+            })
+
+            //create group
+            .addCase(createGroup.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(createGroup.fulfilled, (state, action) => {
+                state.loading = false;
+                const newGroup = action.payload;
+                newGroup.totalMember = 0;
+                state.groups.push(newGroup);
+            })
+            .addCase(createGroup.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.payload;
             })
