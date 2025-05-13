@@ -80,9 +80,7 @@ const groupSlice = createSlice({
             })
             .addCase(createGroup.fulfilled, (state, action) => {
                 state.loading = false;
-                const newGroup = action.meta.arg;
-                newGroup.totalMember = 0;
-                state.groups.push(newGroup);
+                state.message = action.payload;
             })
             .addCase(createGroup.rejected, (state, action) => {
                 state.loading = false;

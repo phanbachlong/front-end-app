@@ -71,6 +71,7 @@ const Group = () => {
         try {
             const rs = await dispatch(createGroup(value));
             if (createGroup.fulfilled.match(rs)) {
+                dispatch(getAllGroups({ page, size, minTotalMember, maxTotalMember, search }))
                 setMess("Create group successfully");
                 resetForm();
             }
